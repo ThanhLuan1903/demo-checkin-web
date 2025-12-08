@@ -1,57 +1,71 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-// In-memory storage (replace with database in production)
 let checkinCount = 0
-const targetNumber = 3
+const targetNumber = 6
 const clients: Set<ReadableStreamDefaultController> = new Set()
+
+let messages: string[] = []
 
 export async function POST(request: NextRequest) {
   checkinCount += 1
 
-  // Notify all connected WebSocket clients
+  let body: any = {}
+  try {
+    body = await request.json()
+  } catch {
+    body = {}
+  }
+
+  const message =
+    typeof body?.message === "string" ? body.message.trim() : ""
+
+  if (message) {
+    messages.push(message)
+    if (messages.length > 100) {
+      messages = messages.slice(-100)
+    }
+  }
+
   const percentage = Math.min((checkinCount / targetNumber) * 100, 100)
-  const message = JSON.stringify({
+  const payload = {
     count: checkinCount,
     target: targetNumber,
     percentage: Math.round(percentage),
+    messages,
     timestamp: new Date().toISOString(),
-  })
+  }
 
-  // Broadcast to all clients
+  const sseMessage = `data: ${JSON.stringify(payload)}\n\n`
+
   clients.forEach((client) => {
     try {
-      client.enqueue(`data: ${message}\n\n`)
-    } catch (e) {
+      client.enqueue(sseMessage)
+    } catch {
       clients.delete(client)
     }
   })
 
   return NextResponse.json({
     success: true,
-    count: checkinCount,
-    target: targetNumber,
-    percentage: Math.round(percentage),
+    ...payload,
   })
 }
 
 export async function GET(request: NextRequest) {
-  // Server-Sent Events (SSE) endpoint for real-time updates
   const stream = new ReadableStream({
     start(controller) {
       clients.add(controller)
 
-      // Send initial state
       const percentage = Math.min((checkinCount / targetNumber) * 100, 100)
-      const initialData = JSON.stringify({
+      const initialPayload = {
         count: checkinCount,
         target: targetNumber,
         percentage: Math.round(percentage),
+        messages,
         timestamp: new Date().toISOString(),
-      })
+      }
 
-      controller.enqueue(`data: ${initialData}\n\n`)
-
-      // Cleanup on disconnect
+      controller.enqueue(`data: ${JSON.stringify(initialPayload)}\n\n`)
       return () => {
         clients.delete(controller)
       }
@@ -68,20 +82,21 @@ export async function GET(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  // Reset endpoint for testing
   checkinCount = 0
+  messages = []
+
+  const payload = {
+    count: 0,
+    target: targetNumber,
+    percentage: 0,
+    messages,
+    timestamp: new Date().toISOString(),
+  }
 
   clients.forEach((client) => {
     try {
-      client.enqueue(
-        `data: ${JSON.stringify({
-          count: 0,
-          target: targetNumber,
-          percentage: 0,
-          timestamp: new Date().toISOString(),
-        })}\n\n`,
-      )
-    } catch (e) {
+      client.enqueue(`data: ${JSON.stringify(payload)}\n\n`)
+    } catch {
       clients.delete(client)
     }
   })
