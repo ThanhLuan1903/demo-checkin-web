@@ -12,7 +12,7 @@ export default function SubmitPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [checkinNumber, setCheckinNumber] = useState(0);
   const [message, setMessage] = useState("");
-  const [lastMessage, setLastMessage] = useState(""); // 👈 lưu message đã gửi
+  const [lastMessage, setLastMessage] = useState(""); 
 
   const [showReminder, setShowReminder] = useState(false);
   const [shakeButton, setShakeButton] = useState(false);
