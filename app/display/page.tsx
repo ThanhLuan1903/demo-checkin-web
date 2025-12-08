@@ -1,3 +1,5 @@
+
+
 "use client"
 
 import { useEffect, useState } from "react"
@@ -46,12 +48,14 @@ export default function DisplayPage() {
     return () => eventSource.close()
   }, [])
 
+  const leftMessages = messages.filter((_, idx) => idx % 2 === 0)
+  const rightMessages = messages.filter((_, idx) => idx % 2 === 1)
+
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-start py-8 px-10 gap-8"
-      // style={{ background: "linear-gradient(135deg, #D3F1F7, #DAF8FF)" }}
+      className="h-screen w-full flex flex-col items-center justify-start gap-6 px-10 py-6"
     >
-      <div className="w-full max-w-5xl text-center space-y-2">
+      <div className="w-full max-w-6xl text-center space-y-2 flex-none">
         <Image
           src="/thankyou.png"
           alt="Thank you"
@@ -74,7 +78,8 @@ export default function DisplayPage() {
         </p>
       </div>
 
-      <div className="w-full max-w-5xl space-y-3">
+      {/* PROGRESS */}
+      <div className="w-full max-w-6xl space-y-3 flex-none">
         <div className="flex justify-between items-center">
           <span
             className="font-semibold text-base"
@@ -104,98 +109,120 @@ export default function DisplayPage() {
         </div>
       </div>
 
-      {messages.length > 0 && (
-        <div className="w-full max-w-5xl mt-2">
-          <div className="flex flex-wrap gap-3 items-start">
-            {messages.map((m, idx) => (
-              <div
-                key={idx}
-                className="inline-flex px-4 py-2 rounded-2xl text-sm"
-                style={{
-                  backgroundColor: "#DAF8FF",
-                  color: "#081C4C",
-                  maxWidth: "320px", 
-                  boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
-                }}
-              >
-                {m}
-              </div>
-            ))}
-          </div>
+      <div className="w-full max-w-6xl flex-1 grid grid-cols-3 gap-4">
+        <div className="relative h-full">
+          {leftMessages.map((m, idx) => (
+            <div
+              key={`left-${idx}`}
+              className="absolute px-3 py-2 rounded-2xl text-xs"
+              style={{
+                top: `${(idx * 12) % 90}%`, 
+                left: "8%",
+                transform: "translateY(-50%)",
+                backgroundColor: "#DAF8FF",
+                color: "#081C4C",
+                maxWidth: "80%",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+              }}
+            >
+              {m}
+            </div>
+          ))}
         </div>
-      )}
 
-      <div className="w-full max-w-5xl flex-1 flex items-center justify-center">
-        {isComplete ? (
-          <div
-            className="relative w-full h-72 overflow-hidden rounded-3xl"
-            style={{
-              background: "radial-gradient(circle at 20% 0, #DAF8FF, #D3F1F7)",
-            }}
-          >
-            <style jsx>{`
-              @keyframes rocket-rise-loop {
-                0% {
-                  transform: translateY(120px) scale(1);
-                  opacity: 1;
-                }
-                100% {
-                  transform: translateY(-260px) scale(0.9);
-                  opacity: 0;
-                }
+        <div
+          className="relative h-full rounded-3xl overflow-hidden"
+          style={{
+          }}
+        >
+          <style jsx>{`
+            @keyframes rocket-rise-loop {
+              0% {
+                transform: translateY(120px) scale(1);
+                opacity: 1;
               }
-
-              @keyframes messages-launch {
-                0% {
-                  transform: translateY(100px);
-                  opacity: 1;
-                }
-                100% {
-                  transform: translateY(-200px);
-                  opacity: 0;
-                }
+              100% {
+                transform: translateY(-260px) scale(0.9);
+                opacity: 0;
               }
-            `}</style>
+            }
 
-            {/* Messages gom lại giữa & bay lên */}
-            {messages.length > 0 && (
-              <div className="absolute inset-0 flex items-end justify-center pointer-events-none">
-                <div className="animate-[messages-launch_6s_ease-in-out_infinite] flex flex-col gap-2 items-center">
-                  {messages.slice(-5).map((m, idx) => (
-                    <div
-                      key={idx}
-                      className="px-4 py-1 rounded-full text-xs"
-                      style={{
-                        backgroundColor: "#FFFFFF",
-                        color: "#081C4C",
-                        maxWidth: "260px",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                      }}
-                    >
-                      {m}
-                    </div>
-                  ))}
+            @keyframes messages-launch {
+              0% {
+                transform: translateY(100px);
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(-200px);
+                opacity: 0;
+              }
+            }
+          `}</style>
+
+          {isComplete ? (
+            <>
+              {/* Messages gom ở giữa & bay lên (lấy 5 message cuối) */}
+              {messages.length > 0 && (
+                <div className="absolute inset-0 flex items-end justify-center pointer-events-none">
+                  <div className="animate-[messages-launch_6s_ease-in-out_infinite] flex flex-col gap-2 items-center">
+                    {messages.slice(-5).map((m, idx) => (
+                      <div
+                        key={`center-${idx}`}
+                        className="px-4 py-1 rounded-full text-xs"
+                        style={{
+                          backgroundColor: "#FFFFFF",
+                          color: "#081C4C",
+                          maxWidth: "260px",
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                        }}
+                      >
+                        {m}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Rocket bay lên lặp lại */}
+              <div className="absolute inset-0 flex items-end justify-center">
+                <div className="animate-[rocket-rise-loop_6s_ease-in-out_infinite]">
+                  <Image
+                    src="/rocket-rm.png"
+                    alt="Rocket"
+                    width={230}
+                    height={230}
+                  />
                 </div>
               </div>
-            )}
-
-            {/* Rocket bay lên nhiều lần */}
-            <div className="absolute inset-0 flex items-end justify-center">
-              <div className="animate-[rocket-rise-loop_6s_ease-in-out_infinite]">
-                <Image
-                  src="/rocket-rm.png"
-                  alt="Rocket"
-                  width={230}
-                  height={230}
-                />
-              </div>
+            </>
+          ) : (
+            <div>
             </div>
-          </div>
-        ) : (
-          <div>
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* CỘT PHẢI – message chồng lên nhau */}
+        <div className="relative h-full">
+          {rightMessages.map((m, idx) => (
+            <div
+              key={`right-${idx}`}
+              className="absolute px-3 py-2 rounded-2xl text-xs text-right"
+              style={{
+                top: `${(idx * 12) % 90}%`,
+                right: "8%",
+                transform: "translateY(-50%)",
+                backgroundColor: "#DAF8FF",
+                color: "#081C4C",
+                maxWidth: "80%",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+              }}
+            >
+              {m}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
+
