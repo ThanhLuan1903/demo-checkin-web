@@ -12,7 +12,7 @@ export default function SubmitPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [checkinNumber, setCheckinNumber] = useState(0);
   const [message, setMessage] = useState("");
-  const [lastMessage, setLastMessage] = useState(""); 
+  const [lastMessage, setLastMessage] = useState("");
 
   const [showReminder, setShowReminder] = useState(false);
   const [shakeButton, setShakeButton] = useState(false);
@@ -75,7 +75,7 @@ export default function SubmitPage() {
   };
   const [countdown, setCountdown] = useState(30);
   useEffect(() => {
-    if (hasCheckedIn) return; 
+    if (hasCheckedIn) return;
 
     if (countdown === 0) return;
 
@@ -88,55 +88,72 @@ export default function SubmitPage() {
 
   if (hasCheckedIn && !showPopup) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center p-4"
-        style={{ background: "linear-gradient(135deg, #D3F1F7, #DAF8FF)" }}
-      >
-        <Card
-          className="p-10 shadow-2xl max-w-md w-full rounded-2xl text-center space-y-4"
-          style={{ backgroundColor: "#EFF0F6" }}
+      <>
+        <style jsx>{`
+          @keyframes riseBounce {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-10px);
+            }
+          }
+        `}</style>
+        ;
+        <div
+          className="min-h-screen flex items-center justify-center p-4"
+          style={{ background: "linear-gradient(135deg, #D3F1F7, #DAF8FF)" }}
         >
-          <Image
-            src="/thankyou.png"
-            alt="Thank you"
-            width={200}
-            height={0}
-            className="mx-auto"
-          />
-          <Image
-            src="/jcidanang.png"
-            alt="JCI"
-            width={200}
-            height={0}
-            className="mx-auto"
-          />
-
-          <h1 className="text-3xl font-bold mb-2">Thank You!</h1>
-          <p className="text-lg" style={{ color: "#4A6D87" }}>
-            Your check-in has been recorded.
-          </p>
-
-          <p className="text-2xl">
-            🎊 Happy New Year Convention JCI Da Nang 2026 🎊
-          </p>
-
-          <Button
-            onClick={() => {
-              setHasCheckedIn(false);
-              localStorage.removeItem("userCheckedIn");
-            }}
-            variant="outline"
-            className="w-full rounded-full mt-4"
-            style={{
-              background: "linear-gradient(135deg, #DAF8FF, #A0CBE7)",
-              borderColor: "#A0CBE7",
-              color: "#081C4C",
-            }}
+          <Card
+            className="p-10 shadow-2xl max-w-md w-full rounded-2xl text-center space-y-4"
+            style={{ backgroundColor: "#EFF0F6" }}
           >
-            Check In Again (if needed)
-          </Button>
-        </Card>
-      </div>
+            <Image
+              src="/thankyou.png"
+              alt="Thank you"
+              width={200}
+              height={0}
+              className="mx-auto"
+            />
+            <Image
+              src="/jcidanang.png"
+              alt="JCI"
+              width={200}
+              height={0}
+              className="mx-auto"
+            />
+            <Image
+              src="/risenow.png"
+              alt="Rise Now"
+              width={400}
+              height={40}
+              className="mx-auto animate-[riseBounce_1.2s_ease-in-out_infinite]"
+            />
+
+            <p className="text-xl">
+              🎊 Happy New Year Convention 🎊
+              <br /> JCI Da Nang 2026
+            </p>
+
+            <Button
+              onClick={() => {
+                setHasCheckedIn(false);
+                localStorage.removeItem("userCheckedIn");
+              }}
+              variant="outline"
+              className="w-full rounded-full mt-4"
+              style={{
+                background: "linear-gradient(135deg, #DAF8FF, #A0CBE7)",
+                borderColor: "#A0CBE7",
+                color: "#081C4C",
+              }}
+            >
+              Check In Again (if needed)
+            </Button>
+          </Card>
+        </div>
+      </>
     );
   }
 
