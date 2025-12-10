@@ -103,6 +103,7 @@ export default function DisplayPage() {
 
       const interval = setInterval(() => burst(), 1200); 
 
+      // stop sau 10 giây
       setTimeout(() => clearInterval(interval), 30000);
     });
   }
@@ -144,14 +145,14 @@ export default function DisplayPage() {
 
         @keyframes celebrateMessage {
           0% {
-            transform: translateY(100vh); 
+            transform: translateY(100vh);
             opacity: 0;
           }
           15% {
             opacity: 1;
           }
           90% {
-            transform: translateY(-80vh); 
+            transform: translateY(-80vh);
             opacity: 1;
           }
           100% {
@@ -161,6 +162,7 @@ export default function DisplayPage() {
         }
       `}</style>
 
+      {/* HEADER */}
       <div className="w-full max-w-6xl text-center space-y-2 flex-none">
         <Image
           src="/thankyou.png"
@@ -207,9 +209,7 @@ export default function DisplayPage() {
         </div>
       </div>
 
-      {/* KHU VỰC DƯỚI PROGRESS – ROCKET LANES (5 cột) */}
       <div className="w-full max-w-6xl flex-1 relative overflow-hidden">
-        {/* Các rocket + message đang bay (trạng thái < 100%) */}
         {!isComplete &&
           flightMessages.map((f) => {
             const laneWidth = 100 / 5;
@@ -223,7 +223,7 @@ export default function DisplayPage() {
                   left: `${laneCenter}%`,
                   bottom: "-10%",
                   transform: "translateX(-50%)",
-                  animation: "flightRocket 8s linear forwards",
+                  animation: "flightRocket 4s linear forwards",
                 }}
               >
                 <Image
