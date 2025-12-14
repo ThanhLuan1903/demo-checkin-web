@@ -132,7 +132,7 @@ export default function SubmitPage() {
             />
 
             <p className="text-xl">
-              🎊 Happy New Year Convention 🎊
+              Happy New Year Convention 
               <br /> JCI Da Nang 2026
             </p>
 
@@ -159,7 +159,7 @@ export default function SubmitPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4"
+      className="min-h-screen flex items-center justify-center p-2"
       style={{ background: "linear-gradient(135deg, #D3F1F7, #DAF8FF)" }}
     >
       <div className="w-full max-w-md">
@@ -187,7 +187,7 @@ export default function SubmitPage() {
                 Welcome!
               </h1>
               <p className="text-2xl" style={{ color: "#081C4C" }}>
-                2026 JCI Da Nang New Year Convention
+                2026 JCI Da Nang <br /> New Year Convention
               </p>
             </div>
 
@@ -195,25 +195,25 @@ export default function SubmitPage() {
               <Image
                 src="/rocket-rm.png"
                 alt="rocket"
-                width={150}
-                height={180}
+                width={130}
+                height={80}
               />
             </div>
 
-            <div className="space-y-2 text-left">
+            <div className="space-y-1 text-left">
               <div className="flex items-center justify-between">
                 <label
                   className="text-sm font-medium"
                   style={{ color: "#081C4C" }}
                 >
-                  Your message for the event
+                  Lời chúc của bạn
                 </label>
 
                 <span
                   className="text-sm font-semibold"
                   style={{ color: countdown <= 5 ? "#C2410C" : "#081C4C" }}
                 >
-                  {countdown}s
+                  Còn {countdown}s
                 </span>
               </div>
 
@@ -227,14 +227,14 @@ export default function SubmitPage() {
                   backgroundColor: "#FFFFFF",
                   color: "#081C4C",
                 }}
-                placeholder="Write something in about 30 seconds, then press Rise Now..."
+                placeholder="Viết một lời chúc thật dễ thương cho sự kiện… rồi nhấn Rise Now"
               />
             </div>
 
             <Button
               onClick={handleSubmit}
               disabled={isLoading}
-              className={`w-full h-16 mt-6 flex items-center justify-center rounded-xl shadow-md transition duration-200 border ${
+              className={`w-full h-13 mt-6 flex items-center justify-center rounded-full shadow-md transition duration-200 border ${
                 shakeButton ? "animate-bounce" : ""
               }`}
               style={{
@@ -245,7 +245,7 @@ export default function SubmitPage() {
               <Image
                 src="/risenow.png"
                 alt="Rise Now"
-                width={220}
+                width={180}
                 height={40}
                 className="mx-auto"
               />
@@ -253,14 +253,15 @@ export default function SubmitPage() {
 
             {isLoading && (
               <p className="text-sm mt-2" style={{ color: "#4A6D87" }}>
-                Checking in...
+                Đang gửi lời chúc ...
               </p>
             )}
 
             {showReminder && !hasCheckedIn && !isLoading && (
               <p className="text-sm" style={{ color: "#C2410C" }}>
-                Please press <span className="font-semibold">Rise Now</span> to
-                launch your message!
+                Sắp hết giờ rồi — nhấn{" "}
+                <span className="font-semibold">Rise Now</span> để gửi lời chúc
+                nhé!
               </p>
             )}
           </div>
@@ -277,11 +278,18 @@ export default function SubmitPage() {
               >
                 <X size={22} />
               </button>
+              <Image
+                src="/jcidanang.png"
+                alt="JCI Da Nang"
+                width={150}
+                height={0}
+                className="mx-auto"
+              />
               <p className="text-2xl pt-2" style={{ color: "#081C4C" }}>
-                🎊 Happy New Year Convention JCI Da Nang 2026 🎊
+                Happy New Year Convention
               </p>
               <p className="text-sm mt-4" style={{ color: "#4A6D87" }}>
-                Thank you for attending! Your message is now launching.
+                Cảm ơn bạn! Thông điệp của bạn đang cất cánh 🚀{" "}
               </p>
 
               <div className="relative h-70 overflow-hidden rounded-2xl">
@@ -332,7 +340,7 @@ export default function SubmitPage() {
                     <Image
                       src="/rocket-rm.png"
                       alt="Rocket"
-                      width={140}
+                      width={120}
                       height={140}
                     />
                   </div>

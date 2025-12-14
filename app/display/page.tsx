@@ -13,7 +13,7 @@ type CheckinPayload = {
 type FlightMessage = {
   id: number;
   text: string;
-  lane: number; // 0..4
+  lane: number; 
 };
 
 export default function DisplayPage() {
@@ -26,15 +26,10 @@ export default function DisplayPage() {
   const [isComplete, setIsComplete] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
 
-  // Các message đang bay (rocket + bubble) khi chưa complete
   const [flightMessages, setFlightMessages] = useState<FlightMessage[]>([]);
 
-  // Để biết message nào mới được thêm
   const lastMessageCountRef = useRef(0);
-  // lane tiếp theo từ 0 → 4
   const nextLaneRef = useRef(0);
-  // tránh trigger celebration nhiều lần
-  const hasTriggeredCelebrationRef = useRef(false);
 
   useEffect(() => {
     const eventSource = new EventSource("/api/checkin");
@@ -86,29 +81,49 @@ export default function DisplayPage() {
     return () => eventSource.close();
   }, []);
 
+  
   useEffect(() => {
-  if (isComplete && !hasTriggeredCelebrationRef.current) {
-    hasTriggeredCelebrationRef.current = true;
+    if (!isComplete) return;
 
-    import("canvas-confetti").then((module) => {
-      const confetti = module.default;
+    let fireworks: any;
 
-      const burst = () => {
-        confetti({ particleCount: 60, spread: 80, origin: { x: 0.2, y: 0.3 } });
-        confetti({ particleCount: 60, spread: 80, origin: { x: 0.5, y: 0.3 } });
-        confetti({ particleCount: 60, spread: 80, origin: { x: 0.8, y: 0.3 } });
-      };
+    import("fireworks-js").then(({ Fireworks }) => {
+      const container = document.getElementById("fireworks-canvas");
+      if (!container) return;
 
-      burst(); 
+      fireworks = new Fireworks(container, {
+        autoresize: true,
+        opacity: 0.9,
+        acceleration: 1.05,
+        friction: 0.97,
+        gravity: 1.5,
+        particles: 120,
+        traceLength: 3,
+        traceSpeed: 10,
+        explosion: 6,
+        intensity: 35,
+        flickering: 50,
+        rocketsPoint: { min: 0, max: 100 }, 
+        lineStyle: "round",
+        hue: { min: 0, max: 360 },
+        delay: { min: 20, max: 40 },
+        sound: {
+          enabled: true,
+          files: ["/firework.mp3"], 
+          volume: { min: 2, max: 4 },
+        },
+      });
 
-      const interval = setInterval(() => burst(), 1200); 
-
-      // stop sau 10 giây
-      setTimeout(() => clearInterval(interval), 30000);
+      fireworks.start();
     });
-  }
-}, [isComplete]);
 
+    return () => {
+      if (fireworks) {
+        fireworks.stop();
+        fireworks.clear();
+      }
+    };
+  }, [isComplete]);
 
   return (
     <div className="relative h-screen w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
@@ -134,7 +149,7 @@ export default function DisplayPage() {
             opacity: 1;
           }
           90% {
-            transform: translateY(-80vh) scale(1.08);
+            transform: translateY(-100vh) scale(1.08);
             opacity: 1;
           }
           100% {
@@ -184,31 +199,32 @@ export default function DisplayPage() {
       </div>
 
       {/* PROGRESS */}
-      <div className="w-full max-w-6xl space-y-3 flex-none">
-        <div className="flex justify-between items-center">
-          <span className="font-semibold text-base text-white">Progress</span>
-          <span className="text-2xl font-bold text-white">
-            {checkinData.percentage}%
-          </span>
-        </div>
+      {!isComplete && (
+        <div className="w-full max-w-6xl space-y-3 flex-none">
+          <div className="flex justify-between items-center">
+            <span className="font-semibold text-base text-white">Progress</span>
+            <span className="text-2xl font-bold text-white">
+              {checkinData.percentage}%
+            </span>
+          </div>
 
-        <div
-          className="w-full h-6 rounded-full overflow-hidden border"
-          style={{
-            backgroundColor: "#EFF0F6",
-            borderColor: "#A0CBE7",
-          }}
-        >
           <div
-            className="h-full transition-all duration-500 rounded-full"
+            className="w-full h-6 rounded-full overflow-hidden border"
             style={{
-              width: `${checkinData.percentage}%`,
-              background: "linear-gradient(90deg, #DAF8FF, #A0CBE7)",
+              backgroundColor: "#EFF0F6",
+              borderColor: "#A0CBE7",
             }}
-          />
+          >
+            <div
+              className="h-full transition-all duration-500 rounded-full"
+              style={{
+                width: `${checkinData.percentage}%`,
+                background: "linear-gradient(90deg, #DAF8FF, #A0CBE7)",
+              }}
+            />
+          </div>
         </div>
-      </div>
-
+      )}
       <div className="w-full max-w-6xl flex-1 relative overflow-hidden">
         {!isComplete &&
           flightMessages.map((f) => {
@@ -264,7 +280,7 @@ export default function DisplayPage() {
               <Image
                 src="/rocket-rm.png"
                 alt="Rocket big"
-                width={260}
+                width={360}
                 height={260}
               />
             </div>
@@ -291,6 +307,12 @@ export default function DisplayPage() {
           </div>
 
           <audio src="/firework.mp3" autoPlay loop className="hidden" />
+        </div>
+      )}
+
+      {isComplete && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <div id="fireworks-canvas" className="absolute inset-0" />
         </div>
       )}
     </div>
