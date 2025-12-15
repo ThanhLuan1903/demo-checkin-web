@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
@@ -125,6 +124,8 @@ export default function DisplayPage() {
     };
   }, [isComplete]);
 
+
+
   return (
     <div className="relative h-screen w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
       <style jsx global>{`
@@ -180,21 +181,21 @@ export default function DisplayPage() {
       {/* HEADER */}
       <div className="w-full max-w-6xl text-center space-y-2 flex-none">
         <Image
-          src="/thankyou.png"
+          src="/thankyou2.png"
           alt="Thank you"
-          width={200}
+          width={300}
           height={0}
           className="mx-auto"
         />
         <Image
-          src="/jcidanang.png"
+          src="/jcidanang2.png"
           alt="JCI Da Nang"
           width={200}
           height={0}
           className="mx-auto"
         />
         <p className="text-xl text-white">
-          🎊 Happy New Year Convention JCI Da Nang 2026 🎊
+          2026 JCI Da Nang New Year Convention
         </p>
       </div>
 
@@ -274,13 +275,13 @@ export default function DisplayPage() {
             <div
               className="mb-6"
               style={{
-                animation: "celebrateRocket 8s ease-in-out infinite",
+                animation: "celebrateRocket 10s ease-in-out infinite",
               }}
             >
               <Image
                 src="/rocket-rm.png"
                 alt="Rocket big"
-                width={360}
+                width={340}
                 height={260}
               />
             </div>
