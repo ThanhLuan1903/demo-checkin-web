@@ -135,6 +135,22 @@ export default function SubmitPage() {
               2026 JCI Da Nang <br />
               New Year Convention
             </p>
+
+            <Button
+              onClick={() => {
+                setHasCheckedIn(false);
+                localStorage.removeItem("userCheckedIn");
+              }}
+              variant="outline"
+              className="w-full rounded-full mt-4"
+              style={{
+                background: "linear-gradient(135deg, #DAF8FF, #A0CBE7)",
+                borderColor: "#A0CBE7",
+                color: "#081C4C",
+              }}
+            >
+              Check In Again
+            </Button>
           </Card>
         </div>
       </>
