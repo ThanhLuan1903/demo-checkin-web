@@ -195,7 +195,7 @@ export default function DisplayPage() {
           className="mx-auto"
         />
         <p className="text-xl text-white">
-          2026 JCI Da Nang New Year Convention
+          2026 JCI Danang New Year Convention
         </p>
       </div>
 

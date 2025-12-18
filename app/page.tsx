@@ -132,9 +132,25 @@ export default function SubmitPage() {
             />
 
             <p className="text-xl">
-              2026 JCI Da Nang <br />
+              2026 JCI Danang <br />
               New Year Convention
             </p>
+
+            <Button
+              onClick={() => {
+                setHasCheckedIn(false);
+                localStorage.removeItem("userCheckedIn");
+              }}
+              variant="outline"
+              className="w-full rounded-full mt-4"
+              style={{
+                background: "linear-gradient(135deg, #DAF8FF, #A0CBE7)",
+                borderColor: "#A0CBE7",
+                color: "#081C4C",
+              }}
+            >
+              Again
+            </Button>
           </Card>
         </div>
       </>
@@ -171,7 +187,7 @@ export default function SubmitPage() {
                 Welcome!
               </h1>
               <p className="text-2xl" style={{ color: "#081C4C" }}>
-                2026 JCI Da Nang <br /> New Year Convention
+                2026 JCI Danang <br /> New Year Convention
               </p>
             </div>
 
@@ -271,7 +287,7 @@ export default function SubmitPage() {
                 className="mx-auto"
               />
               <p className="text-2xl pt-2" style={{ color: "#081C4C" }}>
-                2026 JCI Da Nang <br /> New Year Convention
+                2026 JCI Danang <br /> New Year Convention
               </p>
               <p className="text-sm mt-4" style={{ color: "#4A6D87" }}>
                 Cảm ơn bạn! Thông điệp của bạn đang cất cánh 🚀{" "}

@@ -132,7 +132,7 @@ export default function SubmitPage() {
             />
 
             <p className="text-xl">
-              2026 JCI Da Nang <br />
+              2026 JCI Danang <br />
               New Year Convention
             </p>
 
@@ -187,7 +187,7 @@ export default function SubmitPage() {
                 Welcome!
               </h1>
               <p className="text-2xl" style={{ color: "#081C4C" }}>
-                2026 JCI Da Nang <br /> New Year Convention
+                2026 JCI Danang <br /> New Year Convention
               </p>
             </div>
 
@@ -287,7 +287,7 @@ export default function SubmitPage() {
                 className="mx-auto"
               />
               <p className="text-2xl pt-2" style={{ color: "#081C4C" }}>
-                2026 JCI Da Nang <br /> New Year Convention
+                2026 JCI Danang <br /> New Year Convention
               </p>
               <p className="text-sm mt-4" style={{ color: "#4A6D87" }}>
                 Cảm ơn bạn! Thông điệp của bạn đang cất cánh 🚀{" "}
