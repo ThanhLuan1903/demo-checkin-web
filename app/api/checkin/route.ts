@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 
 let checkinCount = 0;
-const targetNumber = 10;
+const targetNumber = 30;
 const clients: Set<ReadableStreamDefaultController> = new Set()
 
 let messages: string[] = []

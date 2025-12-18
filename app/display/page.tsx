@@ -127,7 +127,7 @@ export default function DisplayPage() {
 
 
   return (
-    <div className="relative h-screen w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
+    <div className="relative h-screen w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat">
       <style jsx global>{`
         @keyframes flightRocket {
           0% {
@@ -144,20 +144,20 @@ export default function DisplayPage() {
           }
         }
 
-        @keyframes celebrateRocket {
-          0% {
-            transform: translateY(100vh) scale(1);
-            opacity: 1;
-          }
-          90% {
-            transform: translateY(-100vh) scale(1.08);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(-100vh) scale(1.1);
-            opacity: 0;
-          }
-        }
+       @keyframes celebrateRocket {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  85% {
+    transform: translate3d(100vw, -100vh, 0) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(110vw, -110vh, 0) scale(1.1);
+    opacity: 0;
+  }
+}
 
         @keyframes celebrateMessage {
           0% {
@@ -184,13 +184,6 @@ export default function DisplayPage() {
           src="/thankyou2.png"
           alt="Thank you"
           width={300}
-          height={0}
-          className="mx-auto"
-        />
-        <Image
-          src="/jcidanang2.png"
-          alt="JCI Da Nang"
-          width={200}
           height={0}
           className="mx-auto"
         />
@@ -273,15 +266,15 @@ export default function DisplayPage() {
           <div className="relative w-full max-w-5xl h-full flex flex-col items-center justify-end pb-10">
             {/* Rocket chính */}
             <div
-              className="mb-6"
+              className="fixed left-0 bottom-0 z-[60] -translate-x-50 translate-y-50"
               style={{
-                animation: "celebrateRocket 10s ease-in-out infinite",
+                animation: "celebrateRocket 24s linear infinite",
               }}
             >
               <Image
-                src="/rocket-rm.png"
+                src="/rocket-display-rm.png"
                 alt="Rocket big"
-                width={340}
+                width={640}
                 height={260}
               />
             </div>

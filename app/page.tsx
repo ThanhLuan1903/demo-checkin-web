@@ -116,13 +116,13 @@ export default function SubmitPage() {
               height={0}
               className="mx-auto"
             />
-            <Image
+            {/* <Image
               src="/jcidanang.png"
               alt="JCI"
               width={200}
               height={0}
               className="mx-auto"
-            />
+            /> */}
             <Image
               src="/risenow.png"
               alt="Rise Now"
@@ -149,7 +149,7 @@ export default function SubmitPage() {
                 color: "#081C4C",
               }}
             >
-              Again
+              Check In Again
             </Button>
           </Card>
         </div>
@@ -168,18 +168,11 @@ export default function SubmitPage() {
           style={{ backgroundColor: "#EFF0F6" }}
         >
           <div className="text-center space-y-2">
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Image
                 src="/thankyou.png"
                 alt="Thank you"
                 width={250}
-                height={0}
-                className="mx-auto"
-              />
-              <Image
-                src="/jcidanang.png"
-                alt="JCI Da Nang"
-                width={150}
                 height={0}
                 className="mx-auto"
               />
@@ -282,11 +275,12 @@ export default function SubmitPage() {
               <Image
                 src="/jcidanang.png"
                 alt="JCI Da Nang"
-                width={150}
+                width={100}
                 height={0}
                 className="mx-auto"
               />
-              <p className="text-2xl pt-2" style={{ color: "#081C4C" }}>
+            
+              <p className="text-2xl pt-8" style={{ color: "#081C4C" }}>
                 2026 JCI Danang <br /> New Year Convention
               </p>
               <p className="text-sm mt-4" style={{ color: "#4A6D87" }}>
