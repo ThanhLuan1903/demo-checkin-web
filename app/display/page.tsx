@@ -239,8 +239,8 @@ export default function DisplayPage() {
                 <Image
                   src="/rocket-rm.png"
                   alt="Rocket"
-                  width={80}
-                  height={80}
+                  width={120}
+                  height={120}
                 />
                 <div
                   className="px-3 py-1 rounded-2xl text-xs text-center"
