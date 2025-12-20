@@ -243,7 +243,7 @@ export default function DisplayPage() {
                   height={120}
                 />
                 <div
-                  className="px-3 py-1 rounded-2xl text-xs text-center"
+                  className="px-3 py-1 rounded-2xl text-lg text-center"
                   style={{
                     backgroundColor: "#DAF8FF",
                     color: "#081C4C",
@@ -283,7 +283,7 @@ export default function DisplayPage() {
               {messages.map((m, idx) => (
                 <div
                   key={`celebrate-${idx}`}
-                  className="px-3 py-1 rounded-2xl text-xs md:text-sm text-center"
+                  className="px-3 py-1 rounded-2xl text-lg text-center"
                   style={{
                     backgroundColor: "rgba(250,250,250,0.95)",
                     color: "#081C4C",
