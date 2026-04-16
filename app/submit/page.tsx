@@ -110,8 +110,8 @@ export default function SubmitPage() {
             style={{ backgroundColor: "#EFF0F6" }}
           >
             <Image
-              src="/thankyou.png"
-              alt="Thank you"
+              src="/group-logo.png"
+              alt="Logo header"
               width={250}
               height={0}
               className="mx-auto"
@@ -124,16 +124,16 @@ export default function SubmitPage() {
               className="mx-auto"
             />
             <Image
-              src="/risenow.png"
-              alt="Rise Now"
+              src="/vuonxa.png"
+              alt="Vuon xa"
               width={400}
               height={40}
               className="mx-auto animate-[riseBounce_1.2s_ease-in-out_infinite]"
             />
 
             <p className="text-xl">
-              2026 JCI Danang <br />
-              New Year Convention
+              JCI Hoi An <br />
+              Launching Ceremony
             </p>
 
             <Button
@@ -170,15 +170,15 @@ export default function SubmitPage() {
           <div className="text-center space-y-2">
             <div className="space-y-1">
               <Image
-                src="/thankyou.png"
-                alt="Thank you"
+                src="/group-logo.png"
+                alt="Logo header"
                 width={250}
                 height={0}
                 className="mx-auto"
               />
               <Image
                 src="/jcidanang.png"
-                alt="JCI Da Nang"
+                alt="JCI Hoi An"
                 width={150}
                 height={0}
                 className="mx-auto"
@@ -187,7 +187,7 @@ export default function SubmitPage() {
                 Welcome!
               </h1>
               <p className="text-2xl" style={{ color: "#081C4C" }}>
-                2026 JCI Danang <br /> New Year Convention
+                JCI Hoi An <br /> Launching Ceremony
               </p>
             </div>
 
@@ -239,13 +239,15 @@ export default function SubmitPage() {
                 shakeButton ? "animate-bounce" : ""
               }`}
               style={{
-                background: "linear-gradient(135deg, #DAF8FF, #A0CBE7)",
+                // background: "linear-gradient(135deg, #DAF8FF, #A0CBE7)",
                 borderColor: "#A0CBE7",
+                background:
+                  "linear-gradient(135deg, #EAD7BC, #F3E4CE, #DDBB8A)",
               }}
             >
               <Image
-                src="/risenow.png"
-                alt="Rise Now"
+                src="/vuonxa.png"
+                alt="Vuon xa"
                 width={180}
                 height={40}
                 className="mx-auto"
@@ -287,10 +289,10 @@ export default function SubmitPage() {
                 className="mx-auto"
               />
               <p className="text-2xl pt-2" style={{ color: "#081C4C" }}>
-                2026 JCI Danang <br /> New Year Convention
+                JCI Hoi An <br /> Launching Ceremony
               </p>
               <p className="text-sm mt-4" style={{ color: "#4A6D87" }}>
-                Cảm ơn bạn! Thông điệp của bạn đang cất cánh 🚀{" "}
+                Cảm ơn bạn! Thông điệp của bạn đang vươn xa{" "}
               </p>
 
               <div className="relative h-70 overflow-hidden rounded-2xl">

@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-
+import { RotateCcw } from "lucide-react";
+import { is } from "date-fns/locale";
+const boatImages = ["/boat1.png", "/boat2.png", "/boat3.png"];
 type CheckinPayload = {
   count: number;
   target: number;
@@ -12,7 +14,8 @@ type CheckinPayload = {
 type FlightMessage = {
   id: number;
   text: string;
-  lane: number; 
+  lane: number;
+  image: string; // 👈 thêm
 };
 
 export default function DisplayPage() {
@@ -29,6 +32,29 @@ export default function DisplayPage() {
 
   const lastMessageCountRef = useRef(0);
   const nextLaneRef = useRef(0);
+
+
+  const handleReset = async () => {
+    try {
+      await fetch("/api/checkin", {
+        method: "DELETE",
+      });
+
+      setCheckinData({
+        count: 0,
+        target: checkinData.target,
+        percentage: 0,
+        messages: [],
+      });
+      setMessages([]);
+      setFlightMessages([]);
+      setIsComplete(false);
+      lastMessageCountRef.current = 0;
+      nextLaneRef.current = 0;
+    } catch (error) {
+      console.error("Reset failed:", error);
+    }
+  };
 
   useEffect(() => {
     const eventSource = new EventSource("/api/checkin");
@@ -56,7 +82,14 @@ export default function DisplayPage() {
 
             const id = Date.now() + Math.random();
 
-            setFlightMessages((prev) => [...prev, { id, text, lane }]);
+            // setFlightMessages((prev) => [...prev, { id, text, lane }]);
+
+            const randomImage = `/boat${Math.floor(Math.random() * 3) + 1}.png`;
+
+            setFlightMessages((prev) => [
+              ...prev,
+              { id, text, lane, image: randomImage },
+            ]);
 
             // Xóa sau 5 giây (trùng với thời gian animation rocket)
             setTimeout(() => {
@@ -124,10 +157,30 @@ export default function DisplayPage() {
     };
   }, [isComplete]);
 
-
+  const celebrationBoats = useMemo(
+    () =>
+      messages.map(
+        () => boatImages[Math.floor(Math.random() * boatImages.length)],
+      ),
+    [messages],
+  );
 
   return (
-    <div className="relative h-screen w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat">
+    <div className="relative h-screen overflow-hidden w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/jcihoian-banner.png')] bg-cover bg-center bg-no-repeat">
+      {isComplete && (
+        <button
+          onClick={handleReset}
+          className="absolute bottom-6 left-6 z-[100] rounded-full p-2 shadow-lg transition hover:scale-105"
+          style={{
+            background: "rgba(255,255,255,0.92)",
+            color: "#081C4C",
+          }}
+          aria-label="Reset check-in"
+          title="Reset check-in"
+        >
+          <RotateCcw size={10} />
+        </button>
+      )}
       <style jsx global>{`
         @keyframes flightRocket {
           0% {
@@ -144,20 +197,20 @@ export default function DisplayPage() {
           }
         }
 
-       @keyframes celebrateRocket {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 1;
-  }
-  85% {
-    transform: translate3d(100vw, -100vh, 0) scale(1.08);
-    opacity: 1;
-  }
-  100% {
-    transform: translate3d(110vw, -110vh, 0) scale(1.1);
-    opacity: 0;
-  }
-}
+        @keyframes celebrateRocket {
+          0% {
+            transform: translate3d(0, 0, 0) scale(1);
+            opacity: 1;
+          }
+          85% {
+            transform: translate3d(100vw, -100vh, 0) scale(1.08);
+            opacity: 1;
+          }
+          100% {
+            transform: translate3d(110vw, -110vh, 0) scale(1.1);
+            opacity: 0;
+          }
+        }
 
         @keyframes celebrateMessage {
           0% {
@@ -181,23 +234,28 @@ export default function DisplayPage() {
       {/* HEADER */}
       <div className="w-full max-w-6xl text-center space-y-2 flex-none">
         <Image
-          src="/thankyou2.png"
-          alt="Thank you"
+          src="/group-logo.png"
+          alt="Logo header"
           width={300}
           height={0}
           className="mx-auto"
         />
-        <p className="text-xl text-white">
+        {/* <p className="text-xl text-white">
           2026 JCI Danang New Year Convention
-        </p>
+        </p> */}
       </div>
 
       {/* PROGRESS */}
       {!isComplete && (
-        <div className="w-full max-w-6xl space-y-3 flex-none">
+        <div className="absolute top-[70vh] left-1/2 -translate-x-1/2 w-full max-w-6xl space-y-3 flex-none">
           <div className="flex justify-between items-center">
-            <span className="font-semibold text-base text-white">Progress</span>
-            <span className="text-2xl font-bold text-white">
+            <span
+              className="font-semibold text-base"
+              style={{ color: "#a9cde0" }}
+            >
+              Progress
+            </span>
+            <span className="text-2xl font-bold" style={{ color: "#ffffff" }}>
               {checkinData.percentage}%
             </span>
           </div>
@@ -205,15 +263,15 @@ export default function DisplayPage() {
           <div
             className="w-full h-6 rounded-full overflow-hidden border"
             style={{
-              backgroundColor: "#EFF0F6",
-              borderColor: "#A0CBE7",
+              backgroundColor: "#F3E4CE",
+              borderColor: "#D9B98F",
             }}
           >
             <div
               className="h-full transition-all duration-500 rounded-full"
               style={{
                 width: `${checkinData.percentage}%`,
-                background: "linear-gradient(90deg, #DAF8FF, #A0CBE7)",
+                background: "linear-gradient(90deg, #F1D6A8, #E0B97A, #C7923E)",
               }}
             />
           </div>
@@ -236,12 +294,7 @@ export default function DisplayPage() {
                   animation: "flightRocket 4s linear forwards",
                 }}
               >
-                <Image
-                  src="/rocket-rm.png"
-                  alt="Rocket"
-                  width={120}
-                  height={120}
-                />
+                <Image src={f.image} alt="Rocket" width={120} height={120} />
                 <div
                   className="px-3 py-1 rounded-2xl text-lg text-center"
                   style={{
@@ -272,9 +325,9 @@ export default function DisplayPage() {
               }}
             >
               <Image
-                src="/rocket-display-rm.png"
+                src="/main-boat1.png"
                 alt="Rocket big"
-                width={640}
+                width={320}
                 height={260}
               />
             </div>
@@ -283,32 +336,50 @@ export default function DisplayPage() {
               {messages.map((m, idx) => (
                 <div
                   key={`celebrate-${idx}`}
-                  className="px-3 py-1 rounded-2xl text-lg text-center"
+                  className="text-lg text-center"
                   style={{
-                    backgroundColor: "rgba(250,250,250,0.95)",
-                    color: "#081C4C",
                     maxWidth: "260px",
                     margin: "4px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
                     animation: "celebrateMessage 7s linear infinite",
                     animationDelay: `${(idx % 10) * 0.3}s`,
                   }}
                 >
-                  {m}
+                  <Image
+                    src={celebrationBoats[idx]}
+                    alt="boat"
+                    width={70}
+                    height={70}
+                    className="mx-auto mb-1"
+                  />
+
+                  <div
+                    className="px-3 py-1 rounded-2xl"
+                    style={{
+                      backgroundColor: "rgba(250,250,250,0.95)",
+                      color: "#081C4C",
+                      fontSize: "18px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+                      maxWidth: "260px",
+                      wordBreak: "break-word",
+                      overflowWrap: "break-word",
+                    }}
+                  >
+                    {m}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <audio src="/firework.mp3" autoPlay loop className="hidden" />
+          {/* <audio src="/firework.mp3" autoPlay loop className="hidden" /> */}
         </div>
       )}
 
-      {isComplete && (
+      {/* {isComplete && (
         <div className="fixed inset-0 z-50 pointer-events-none">
           <div id="fireworks-canvas" className="absolute inset-0" />
         </div>
-      )}
+      )} */}
     </div>
   );
 }
