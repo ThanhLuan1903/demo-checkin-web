@@ -224,7 +224,7 @@ export default function DisplayPage() {
 
   return (
     <div className="relative h-screen overflow-hidden w-full flex flex-col items-center justify-start gap-6 px-10 py-6 bg-[url('/jcihoian-banner.png')] bg-cover bg-center bg-no-repeat">
-      {isComplete && (
+      
         <button
           onClick={handleReset}
           className="absolute bottom-6 left-6 z-[100] rounded-full p-2 shadow-lg transition hover:scale-105"
@@ -237,7 +237,7 @@ export default function DisplayPage() {
         >
           <RotateCcw size={10} />
         </button>
-      )}
+      
       <style jsx global>{`
         @keyframes flightRocket {
           0% {
