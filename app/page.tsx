@@ -39,8 +39,8 @@ export default function SubmitPage() {
       return;
     }
 
-    const t1 = setTimeout(() => setShowReminder(true), 60_000);
-    const t2 = setTimeout(() => setShakeButton(true), 62_000);
+    const t1 = setTimeout(() => setShowReminder(true), 120_000);
+    const t2 = setTimeout(() => setShakeButton(true), 122_000);
 
     return () => {
       clearTimeout(t1);
@@ -80,7 +80,7 @@ export default function SubmitPage() {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(120);
   useEffect(() => {
     if (hasCheckedIn) return;
 
@@ -213,9 +213,10 @@ export default function SubmitPage() {
 
                 <span
                   className="text-sm font-semibold"
-                  style={{ color: countdown <= 5 ? "#C2410C" : "#081C4C" }}
+                  style={{ color: countdown <= 10 ? "#C2410C" : "#081C4C" }}
                 >
-                  Còn {countdown}s
+                  Còn {Math.floor(countdown / 60)}:
+                  {(countdown % 60).toString().padStart(2, "0")}
                 </span>
               </div>
 
